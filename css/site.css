@@ -1,0 +1,36 @@
+.loading {
+  background: #fff;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  text-align: center;
+  padding: 15% 0 0 0;
+  font-size: 40px;
+}
+
+.navbar {
+  border-radius: 0
+}
+
+.btn--username {
+  margin: 5px 0 0 0;
+}
+
+.img--useravatar {
+  max-height: 40px;
+  margin: 4px 0 0 0;
+}
+
+.form-inline {
+  margin: 10px 0;
+}
+
+.forks a {
+  margin: 0 10px 0 0;
+}
+
+.forks img {
+  max-width: 40px;
+}

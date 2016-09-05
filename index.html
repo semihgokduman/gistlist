@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="css/site.css" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body ng-controller="ghCtrl">
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="col-md-8">
+          <a href="{{userData.html_url}}" target="_blank" title="{{userData.name}}"><img alt="{{userData.name}}" ng-src="{{userData.avatar_url}}" class="img--useravatar "/></a>
+          <a href="{{userData.html_url}}" target="_blank"  title="{{userData.name}}" class="btn--username btn btn-default">{{userData.name}}</a>
+        </div>
+        <form class="form-inline col-md-4 pull-right">
+          <input type="text" class="form-control inp--search" ng-model="username" ng-keypress="restartWithEnter($event)" value="username" />
+          <button class="btn btn-default" ng-click="restart()">Search</button>
+        </form>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <form class="form-inline">
+            <span class="">
+            <input ng-model="searchText" placeholder="Find a gist..." class="form-control input-sm">
+            </span>
+          </form>
+        </div>
+        <div>
+          <div ng-repeat="gist in gistData | filter:searchText  | orderBy:predicate:reverse" class="list-group-item">
+            <div class="row" id="gist-{{gist.id}}" ng-init="forks=loadForkData(gist.id)">
+              <div class="col-md-4">
+                <h4>
+                <a href="{{gist.html_url}}" target="_blank">
+                <h5>{{gist.html_url}}</h5>
+                <small>{{gist.description}}</small>
+                </a>
+                </h4>
+              </div>
+              <div class="col-md-4">
+                <div class="row" ng-repeat="file in gist.files">
+                  <div class="col-md-12"><a href="{{file.raw_url}}" target="_blank"><span class="badge">{{file.language}}</span> <span>{{file.filename}}</span></a></div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Last Updated:</dt>
+                  <dd>{{gist.updated_at | date : short : timezone}}</dd>
+                  <dt>Created:</dt>
+                  <dd>{{gist.created_at| date : short : timezone}}</dd>
+                </dl>
+              </div>
+              <div class="col-md-12 forks">
+                <span ng-repeat="fork in forksData[gist.id] | limitTo:3">
+                <a href="{{fork.html_url}}" title="{{fork.owner.login}}" target="_blank">
+                <img ng-src="{{fork.owner.avatar_url}}">
+                {{fork.owner.login}}</a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="loading" ng-hide="gistData"/>Loading...</span>
+    <script src="app/vendors/angular.min.js" charset="utf-8"></script>
+    <script src="app/app.js" charset="utf-8"></script>
+  </body>
+</body>
+</html>
